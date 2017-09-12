@@ -38,7 +38,30 @@
       var mesh = new THREE.Mesh( geometry, material );
       scene.add( mesh );
       
-      camera.position.z = 5;
+      // パーティクル
+      var particle_geometry = new THREE.Geometry();// 形状データ
+      var numParticles = 2000;
+      for(var i = 0 ; i < numParticles ; i++) {
+        particle_geometry.vertices.push(
+          new THREE.Vector3(
+            Math.random() * 20 - 10,
+            Math.random() * 20 - 10,
+            Math.random() * 20 - 10));
+      }
+       
+      var particle_material = new THREE.PointsMaterial({ // マテリアル
+        size: 0.01, 
+        color: 0x80ffccaa, 
+        blending: THREE.AdditiveBlending,
+        transparent: true,
+        depthTest: true
+      });
+       
+      // 物体を作成
+      var emitter = new THREE.Points(particle_geometry, particle_material);
+      scene.add(emitter);
+    
+      camera.position.z = 3;
       
       var clock = new THREE.Clock();
       var render = function () {
